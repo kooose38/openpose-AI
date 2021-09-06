@@ -69,5 +69,5 @@ def main(img_path: str):
     # 画像の表示
     show_img(result_img)
     
-if __main__ = "__name__":
+if __name__ = "__main__":
     main(root_path+args.arg1)
