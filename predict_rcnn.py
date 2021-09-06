@@ -51,5 +51,5 @@ def main(img_path: str):
         outputs = model(img_tensor)
     show_img(outputs, orgImg)
 
-if __main__ = "__name__":
+if __name__ = "__main__":
     main(root_path+args.arg1)
