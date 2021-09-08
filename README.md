@@ -4,6 +4,8 @@
 データセット: [https://www.kaggle.com/awsaf49/coco-2017-dataset](https://www.kaggle.com/awsaf49/coco-2017-dataset)  
 モデル: [OpenPose](https://arxiv.org/abs/1812.08008)  
 使い方:  
+モデルのダウンロードする[https://drive.google.com/file/d/1BjA2NxpdlBijZl8Zp4m_Du28687FFCna/view?usp=sharing](https://drive.google.com/file/d/1BjA2NxpdlBijZl8Zp4m_Du28687FFCna/view?usp=sharing)  
+ダウンロードしたモデルを`models/`に配置する  
 ```
 $ python predict_pose.py 1.jpg  # model openpose
 $ python predict_rcnn.py 1.jpg # model keypointRCNN_resnet50_fpn

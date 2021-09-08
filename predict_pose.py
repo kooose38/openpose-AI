@@ -1,24 +1,15 @@
 import torch 
-import torch.nn as nn 
 import numpy as np 
 import matplotlib.pyplot as  plt 
 from PIL import Image 
 import cv2 
 import uuid 
 import os, time, json, pickle 
-from torchvision import transforms
-from torchvision.models import vgg19
 import argparse
 
 from networks.openpose import OpenPoseNet 
 from utils.decode import decode_pose 
 from utils.transform import transform  
-
-parser = argparse.ArgumentParser()
-parser.add_argument("arg1", help="image path name", type=str, default="1.jpg")
-args = parser.parse_args()
-root_path = "img/"
-
 
 def load_weight(net, filename="./models/pose_model_scratch.pth"):
     weights = torch.load(filename, map_location={"cuda:0": "cpu"})
@@ -34,7 +25,6 @@ def load_weight(net, filename="./models/pose_model_scratch.pth"):
     net.eval()
     return net 
 
-
 def show_img(img):
     fig = plt.figure()
     plt.imshow(img)
@@ -45,7 +35,6 @@ def show_img(img):
     id = uuid.uuid4()
     fig.savefig(f"results/{str(id)[:4]}.png")
     print(f"saving result image for path results/{str(id)[:4]}.png ")
-
     
 def detect(net, img_tensor):
     with torch.no_grad():
@@ -53,7 +42,6 @@ def detect(net, img_tensor):
         heatmap = output[-1][0].detach().cpu().numpy().transpose(1, 2, 0)
         pafs = output[-2][0].detach().cpu().numpy().transpose(1, 2, 0)
     return heatmap, pafs 
-
 
 def main(img_path: str):
     # モデルの読み込み
@@ -70,4 +58,8 @@ def main(img_path: str):
     show_img(result_img)
     
 if __name__ = "__main__":
-    main(root_path+args.arg1)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("arg1", help="image path name", type=str, default="1.jpg")
+    args = parser.parse_args()
+    root_path = "img/"
+    main(str(root_path+args.arg1))

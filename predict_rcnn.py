@@ -11,16 +11,6 @@ from PIL import Image
 from utils.transform import transform_rcnn 
 from utils.decoder_rcnn import decode_img
 
-
-device = "cuda:0" if torch.cuda.is_available() else "cpu"
-torch.manual_seed(0)
-np.random.seed(0)
-parser = argparse.ArgumentParser()
-parser.add_argument("arg1", help="image path name", type=str, default="1.jpg")
-args = parser.parse_args()
-root_path = "img/"
-
-
 def load_model():
     model = torchvision.models.detection.keypointrcnn_resnet50_fpn(pretrained=True, num_keypoints=17)
     model.to(device)
@@ -38,7 +28,7 @@ def show_img(outputs, image):
     fig.savefig(f"results/{str(id)[:4]}.png")
     print(f"saving resutl image for path results/{str(id)[:4]}.png")
 
-def main(img_path: str):
+def main(img_path: str, device: bool):
     # モデルの読み込み
     model = load_model()
     # 前処理と表示する画像の調整
@@ -48,8 +38,15 @@ def main(img_path: str):
     img_tensor = transform_rcnn(img).unsqueeze(0)
     # 推論
     with torch.no_grad():
-        outputs = model(img_tensor)
+        outputs = model(img_tensor, device)
     show_img(outputs, orgImg)
 
 if __name__ = "__main__":
-    main(root_path+args.arg1)
+    device = "cuda:0" if torch.cuda.is_available() else "cpu"
+    torch.manual_seed(0)
+    np.random.seed(0)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("arg1", help="image path name", type=str, default="1.jpg")
+    args = parser.parse_args()
+    root_path = "img/"
+    main(str(root_path+args.arg1), device)
